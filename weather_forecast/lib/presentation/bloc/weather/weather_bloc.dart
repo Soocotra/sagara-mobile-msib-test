@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 
 import '../../../core/error/app_error.dart';
 import '../../../core/resource/data_resources.dart';
@@ -28,12 +29,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     try {
       emit(WeatherLoading());
       final position = await _determinePositionUsecase(());
+      final placemarks = await placemarkFromCoordinates(
+        position.latitude, position.longitude);
       final DataState dataState = await _getWeatherUsercase(GetWeatherParam(
         lat: position.latitude,
         lon: position.longitude,
       ));
       if (dataState is DataSuccess && dataState.data != null) {
-        emit(WeatherDone(weatherEntity: dataState.data!));
+        emit(WeatherDone(weatherEntity: dataState.data!, placemarks: placemarks));
       }
       if (dataState is DataFailed) {
         emit(WeatherError(error: dataState.error!));

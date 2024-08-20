@@ -9,7 +9,7 @@ class WeatherGrouping {
     if (weatherList != null) {
       return groupBy(weatherList, (WeatherList weather) {
         DateTime date = DateTime.fromMillisecondsSinceEpoch(
-            (weather.dt ?? 0) * 1000,
+            ((weather.dt ?? 0) * 1000).toInt(),
             isUtc: true);
         return DateFormat("EEEE").format(date);
       });

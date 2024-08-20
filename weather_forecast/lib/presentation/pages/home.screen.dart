@@ -23,8 +23,8 @@ class HomeScreen extends StatelessWidget {
         BlocBuilder<WeatherBloc, WeatherState>(
           builder: (context, state) {
             final theme = ForecastTheme(
-                weather: state
-                    .weatherEntity?.list?.first.weather?.first.description);
+                weather: state.weatherEntity?.list?.firstOrNull?.weather
+                    ?.firstOrNull?.main);
             return Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                     builder: (context, state) {
                       final theme = ForecastTheme(
                           weather: state.weatherEntity?.list?.firstOrNull
-                              ?.weather?.firstOrNull?.description);
+                              ?.weather?.firstOrNull?.main);
                       return Container(
                         padding: EdgeInsets.all(25.w),
                         decoration: BoxDecoration(
@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                                     ? Image.network(
                                         "https://openweathermap.org/img/wn/${state.weatherEntity?.list?[0].weather?[0].icon}@4x.png",
                                         width: 225.w,
-                                        height: 102.h,
+                                        height: 122.h,
                                         fit: BoxFit.cover,
                                       )
                                     : IconsLib(
@@ -77,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                                   ),
                             Text(
                                 state is WeatherDone
-                                    ? "${((state.weatherEntity?.list!.first.main?.temp ?? 273.51) - 273.15).round()}°C"
+                                    ? "${((state.weatherEntity?.list!.firstOrNull?.main?.temp ?? 273.51) - 273.15).round()}°C"
                                     : "0°",
                                 style: Get.textTheme.headlineSmall?.copyWith(
                                     fontWeight: FontWeight.w600,
@@ -88,8 +88,8 @@ class HomeScreen extends StatelessWidget {
                             ),
                             Text(
                               state is WeatherDone
-                                  ? state.weatherEntity?.list?.first.weather
-                                          ?.first.main ??
+                                  ? state.weatherEntity?.list?.firstOrNull
+                                          ?.weather?.firstOrNull?.main ??
                                       "----"
                                   : "----",
                               style: Get.textTheme.titleMedium?.copyWith(
@@ -101,10 +101,11 @@ class HomeScreen extends StatelessWidget {
                             ),
                             Text(
                               state is WeatherDone
-                                  ? state.weatherEntity?.city?.name != null
-                                      ? "${state.weatherEntity?.city?.name}, ${state.weatherEntity?.city?.country}"
+                                  ? state.placemarks != null
+                                      ? "${state.placemarks?.firstOrNull?.locality ?? state.placemarks?.firstOrNull?.administrativeArea ?? state.placemarks?.firstOrNull?.subAdministrativeArea}, ${state.placemarks?.firstOrNull?.country}"
                                       : "-------"
                                   : "-------",
+                              textAlign: TextAlign.center,
                               style: Get.textTheme.bodyMedium?.copyWith(
                                   color: theme.getSecondaryColor(),
                                   fontWeight: FontWeight.w600),
@@ -113,9 +114,10 @@ class HomeScreen extends StatelessWidget {
                               height: 15.h,
                             ),
                             Text(
-                              state.weatherEntity?.list?.first.dt != null
-                                  ? DtConverter.utcToWIB(
-                                      state.weatherEntity?.list?.first.dt)
+                              state.weatherEntity?.list?.firstOrNull?.dt != null
+                                  ? DtConverter.utcToWIB((state
+                                          .weatherEntity?.list?.firstOrNull?.dt)
+                                      ?.toInt())
                                   : "-------",
                               style: Get.textTheme.bodyMedium?.copyWith(
                                   color: theme.getSecondaryColor(),
@@ -138,30 +140,30 @@ class HomeScreen extends StatelessWidget {
                                     icon: AppIcons.humidity,
                                     label: "HUMIDITY",
                                     value: state is WeatherDone
-                                        ? state.weatherEntity?.list?.first.main
-                                                    ?.humidity !=
+                                        ? state.weatherEntity?.list?.firstOrNull
+                                                    ?.main?.humidity !=
                                                 null
-                                            ? "${state.weatherEntity?.list?.first.main?.humidity}%"
+                                            ? "${state.weatherEntity?.list?.firstOrNull?.main?.humidity}%"
                                             : "--"
                                         : "--"),
                                 _buildDetails(
                                     icon: AppIcons.wind,
                                     label: "WIND",
                                     value: state is WeatherDone
-                                        ? state.weatherEntity?.list?.first.wind
-                                                    ?.speed !=
+                                        ? state.weatherEntity?.list?.firstOrNull
+                                                    ?.wind?.speed !=
                                                 null
-                                            ? "${state.weatherEntity?.list?.first.wind?.speed} m/sec"
+                                            ? "${state.weatherEntity?.list?.firstOrNull?.wind?.speed} m/sec"
                                             : "--"
                                         : "--"),
                                 _buildDetails(
                                     icon: AppIcons.feelsLike,
                                     label: "FEELS LIKE",
                                     value: state is WeatherDone
-                                        ? state.weatherEntity?.list?.first.main
-                                                    ?.feelsLike !=
+                                        ? state.weatherEntity?.list?.firstOrNull
+                                                    ?.main?.feelsLike !=
                                                 null
-                                            ? "${((state.weatherEntity?.list?.first.main?.feelsLike ?? 0) - 273.51).round()}°C"
+                                            ? "${((state.weatherEntity?.list?.firstOrNull?.main?.feelsLike ?? 0) - 273.51).round()}°C"
                                             : "--"
                                         : "--"),
                               ],
@@ -209,7 +211,7 @@ class HomeScreen extends StatelessWidget {
               builder: (context, state) {
                 final theme = ForecastTheme(
                     weather: state.weatherEntity?.list?.firstOrNull?.weather
-                        ?.firstOrNull?.description);
+                        ?.firstOrNull?.main);
                 return Container(
                   height: 120.h,
                   decoration: BoxDecoration(
@@ -237,17 +239,18 @@ class HomeScreen extends StatelessWidget {
                               ? index == 0
                                   ? "NOW"
                                   : DtConverter.utcToHours(
-                                      WeatherGrouping.groupWeatherByDate(
-                                              state.weatherEntity?.list)
-                                          .values
-                                          .first[index]
-                                          .dt)
+                                      (WeatherGrouping.groupWeatherByDate(
+                                                  state.weatherEntity?.list)
+                                              .values
+                                              .first[index]
+                                              .dt)
+                                          ?.toInt())
                               : "--",
                           style: Get.textTheme.titleSmall
                               ?.copyWith(color: Colors.white),
                         ),
                         SizedBox(
-                          height: 9.h,
+                          height: 5.h,
                         ),
                         Row(
                           children: [
@@ -260,9 +263,9 @@ class HomeScreen extends StatelessWidget {
                                         .icon !=
                                     null
                                 ? Image.network(
-                                    "https://openweathermap.org/img/wn/${WeatherGrouping.groupWeatherByDate(state.weatherEntity?.list).values.first[index].weather?.first.icon}@4x.png",
+                                    "https://openweathermap.org/img/wn/${WeatherGrouping.groupWeatherByDate(state.weatherEntity?.list).values.first[index].weather?.firstOrNull?.icon}@4x.png",
                                     width: 56.w,
-                                    height: 22.h,
+                                    height: 32.h,
                                     fit: BoxFit.cover,
                                   )
                                 : IconsLib(
@@ -274,7 +277,7 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 10.h,
+                          height: 5.h,
                         ),
                         Text(
                           "${((WeatherGrouping.groupWeatherByDate(state.weatherEntity?.list).values.first[index].main?.temp ?? 273.51) - 273.51).round()}°C",
@@ -304,7 +307,7 @@ class HomeScreen extends StatelessWidget {
               builder: (context, state) {
                 final theme = ForecastTheme(
                     weather: state.weatherEntity?.list?.firstOrNull?.weather
-                        ?.firstOrNull?.description);
+                        ?.firstOrNull?.main);
                 return Container(
                   decoration: BoxDecoration(
                       color: theme.getSecondaryColor(),
@@ -363,7 +366,7 @@ class HomeScreen extends StatelessWidget {
                                             ?.firstOrNull
                                             ?.weather
                                             ?.firstOrNull
-                                            ?.description);
+                                            ?.main);
                                     return ClipRRect(
                                       child: BackdropFilter(
                                         filter: ImageFilter.blur(
@@ -435,7 +438,7 @@ class HomeScreen extends StatelessWidget {
                                                             TextSpan(
                                                                 text: weatherByDay
                                                                         .isNotEmpty
-                                                                    ? "${weatherByDay.values.toList()[index].first.main?.humidity ?? "---"}%"
+                                                                    ? "${weatherByDay.values.toList()[index].firstOrNull?.main?.humidity ?? "---"}%"
                                                                     : "---%",
                                                                 style: Get
                                                                     .textTheme
@@ -463,7 +466,7 @@ class HomeScreen extends StatelessWidget {
                                                             TextSpan(
                                                                 text: weatherByDay
                                                                         .isNotEmpty
-                                                                    ? "${weatherByDay.values.toList()[index].first.wind?.speed ?? "---"} m/s"
+                                                                    ? "${weatherByDay.values.toList()[index].firstOrNull?.wind?.speed ?? "---"} m/s"
                                                                     : "--- m/s",
                                                                 style: Get
                                                                     .textTheme
@@ -491,7 +494,7 @@ class HomeScreen extends StatelessWidget {
                                                                 ?.first !=
                                                             null
                                                         ? Image.network(
-                                                            "https://openweathermap.org/img/wn/${weatherByDay.values.toList()[index].first.weather?.first.icon}@4x.png",
+                                                            "https://openweathermap.org/img/wn/${weatherByDay.values.toList()[index].firstOrNull?.weather?.firstOrNull?.icon}@4x.png",
                                                             width: 100.w,
                                                             height: 56.w,
                                                             fit: BoxFit.cover,
@@ -504,7 +507,7 @@ class HomeScreen extends StatelessWidget {
                                                       height: 16.h,
                                                     ),
                                                     Text(
-                                                      "${((weatherByDay.values.toList()[index].first.main?.temp ?? 273.51) - 273.15).round()}°C",
+                                                      "${((weatherByDay.values.toList()[index].firstOrNull?.main?.temp ?? 273.51) - 273.15).round()}°C",
                                                       style: Get.textTheme
                                                           .displaySmall
                                                           ?.copyWith(
@@ -536,8 +539,8 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<WeatherBloc, WeatherState>(
       builder: (context, state) {
         final theme = ForecastTheme(
-            weather:
-                state.weatherEntity?.list?.first.weather?.first.description);
+            weather: state
+                .weatherEntity?.list?.firstOrNull?.weather?.firstOrNull?.main);
         return Column(
           children: [
             IconsLib(

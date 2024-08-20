@@ -1,7 +1,7 @@
 class WeatherEntity {
   String? cod;
-  int? message;
-  int? cnt;
+  num? message;
+  num? cnt;
   List<WeatherList>? list;
   City? city;
 
@@ -36,12 +36,12 @@ class WeatherEntity {
 }
 
 class WeatherList {
-  int? dt;
+  num? dt;
   Main? main;
   List<Weather>? weather;
   Clouds? clouds;
   Wind? wind;
-  int? visibility;
+  num? visibility;
   num? pop;
   Sys? sys;
   String? dtTxt;
@@ -155,7 +155,7 @@ class Main {
 }
 
 class Weather {
-  int? id;
+  num? id;
   String? main;
   String? description;
   String? icon;
@@ -180,7 +180,7 @@ class Weather {
 }
 
 class Clouds {
-  int? all;
+  num? all;
 
   Clouds({this.all});
 
@@ -196,9 +196,9 @@ class Clouds {
 }
 
 class Wind {
-  double? speed;
-  int? deg;
-  double? gust;
+  num? speed;
+  num? deg;
+  num? gust;
 
   Wind({this.speed, this.deg, this.gust});
 
@@ -234,7 +234,7 @@ class Sys {
 }
 
 class Rain {
-  double? d3h;
+  num? d3h;
 
   Rain({this.d3h});
 
@@ -250,14 +250,14 @@ class Rain {
 }
 
 class City {
-  int? id;
+  num? id;
   String? name;
   Coord? coord;
   String? country;
-  int? population;
-  int? timezone;
-  int? sunrise;
-  int? sunset;
+  num? population;
+  num? timezone;
+  num? sunrise;
+  num? sunset;
 
   City(
       {this.id,
@@ -297,8 +297,8 @@ class City {
 }
 
 class Coord {
-  double? lat;
-  double? lon;
+  num? lat;
+  num? lon;
 
   Coord({this.lat, this.lon});
 
