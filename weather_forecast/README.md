@@ -6,16 +6,15 @@ This project was developed as part of the internship test for MSIB Sagara Techno
 </p>
 
 ## Table of Contents
-
-- [A. Project Specifications](#a-project-specifications)
-  - [1. Clean Architecture](#1-clean-architecture)
-  - [2. Technology](#2-technology)
+- [A. How to Run the Project](#a-how-to-run-the-project)
+- [B. Project Specifications](#b-project-specifications)
+  - [1. Technology](#1-technology)
+  - [2. Clean Architecture](#2-clean-architecture)
   - [3. State Management](#3-state-management)
   - [4. Dependency Injection](#4-dependency-injection)
   - [5. API Consumer](#5-api-consumer)
-- [B. How to Run the Project](#b-how-to-run-the-project)
 - [C. Main Features](#c-main-features)
-  - [1. Weather Display](#1-weather-display!)
+  - [1. Weather Display](#1-weather-display)
   - [2. API Integration](#2-api-integration)
 - [D. Packages Used](#d-packages-used)
 - [E. Credits](#e-credits)
