@@ -25,7 +25,7 @@ To run the Simple Weather App on your local machine, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/simple-weather-app.git
+   git clone https://github.com/Soocotra/sagara-mobile-msib-test.git
    ```
    
 2. **Navigate to the Project Directory**:
