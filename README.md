@@ -62,8 +62,8 @@ The project follows Clean Architecture principles, which include three main laye
 - **GetIt**
 
 ### 5. API Consumer
-- **Retrofit**: Retrofit is used for making network requests.
-- **Dio**: Dio is used as the HTTP client for making API calls.
+- **Retrofit**.
+- **Dio**.
 
 ## C. Main Features
 
