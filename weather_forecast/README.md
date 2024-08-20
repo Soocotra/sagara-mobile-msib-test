@@ -4,6 +4,7 @@ This project was developed as part of the internship test for MSIB Sagara Techno
 <p align="center">
   <img src="https://github.com/user-attachments/assets/be982ef9-ba5c-4d28-81f3-78e156c836b8" width=320 height=680>
 </p>
+
 ## Table of Contents
 
 - [A. Project Specifications](#a-project-specifications)
