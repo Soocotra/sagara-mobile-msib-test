@@ -102,7 +102,7 @@ The following packages are utilized in the project:
 ## E. Credits
 
 **App Design**
-- UI references from [Figma Community](https://www.figma.com/community/file/1177627357046864157) and [Figma Community](https://www.figma.com/community/file/1249011821506249463).
+- UI references from [Mark Vassilevsky](https://www.figma.com/community/file/1177627357046864157) and [Julia Prokhorova](https://www.figma.com/community/file/1249011821506249463).
 - Theme example for Cloudy and Rainy:
 <p align="center">
   <img src="https://github.com/user-attachments/assets/be982ef9-ba5c-4d28-81f3-78e156c836b8" width=220 height=480>
